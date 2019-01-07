@@ -6,7 +6,7 @@ import java.awt.event.*;
 
 public class Main extends Applet implements Runnable, KeyListener{
     Thread drawThread;
-
+    
     // システム初期化
     public void init(){
         addKeyListener(this);
@@ -24,7 +24,12 @@ public class Main extends Applet implements Runnable, KeyListener{
             repaint();
             Thread.sleep(10); 
         }catch(InterruptedException e){}
-    }    
+    }
+
+    // 描画画面切り替え
+    public static void changeWindow(){
+    
+    }
     
     // 各画面の描画メソッドを呼ぶ
     public void paint(Graphics g){
