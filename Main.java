@@ -21,6 +21,7 @@ public class Main extends Applet implements Runnable{
         }catch(InterruptedException e){}
     }    
     
+    // 各画面の描画メソッドを呼ぶ
     public void paint(Graphics g){
     
     }
