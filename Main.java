@@ -36,8 +36,10 @@ public class Main extends Applet implements Runnable, KeyListener{
     public static boolean changeWindow(String windowID){
         if(windows.containsKey(windowID)){
             nowDrawingWindow = windowID;
+            windows.get(nowDrawingWindow).init();
             return true;
-        }else{
+        }
+        else{
             return false;
         }
     }
