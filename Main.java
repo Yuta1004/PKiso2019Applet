@@ -46,7 +46,11 @@ public class Main extends Applet implements Runnable, KeyListener{
     
     // 各画面の描画メソッドを呼ぶ
     public void paint(Graphics g){
-        windows.get(nowDrawingWindow).draw(g); 
+        // アンチエイリアシング
+        Graphics2D g2 = (Graphics2D)g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        windows.get(nowDrawingWindow).draw(g2); 
     }
 
     // キー入力(押)
