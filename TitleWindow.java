@@ -5,6 +5,7 @@ public class TitleWindow implements Window{
     }
 
     public void init(){
+        System.out.println("Init TitleWindow");
     }
 
     public void draw(Graphics g){
@@ -12,6 +13,7 @@ public class TitleWindow implements Window{
     }
 
     public void keyPressed(char key){
+        Main.changeWindow("Game");
     }
 
     public void keyReleased(char key){

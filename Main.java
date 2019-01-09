@@ -14,6 +14,8 @@ public class Main extends Applet implements Runnable, KeyListener{
     public void init(){
         nowDrawingWindow = "Title";
         windows.put("Title", new TitleWindow());
+        windows.put("Game", new GameWindow());
+        windows.put("GameOver", new GameOverWindow());
         
         addKeyListener(this);
     }
