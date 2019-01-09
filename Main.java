@@ -1,14 +1,20 @@
 import java.applet.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 
 /* <applet code="Main.class" width=700 height=700></applet> */
 
 public class Main extends Applet implements Runnable, KeyListener{
-    Thread drawThread;
+    private Thread drawThread;
+    private static String nowDrawingWindow = "";
+    private static HashMap<String, Window> windows = new HashMap<String, Window>();
     
     // システム初期化
     public void init(){
+        nowDrawingWindow = "Title";
+        windows.put("Title", new TitleWindow("Title1"));
+        
         addKeyListener(this);
     }
 
@@ -27,13 +33,18 @@ public class Main extends Applet implements Runnable, KeyListener{
     }
 
     // 描画画面切り替え
-    public static void changeWindow(){
-    
+    public static boolean changeWindow(String windowID){
+        if(windows.containsKey(windowID)){
+            nowDrawingWindow = windowID;
+            return true;
+        }else{
+            return false;
+        }
     }
     
     // 各画面の描画メソッドを呼ぶ
     public void paint(Graphics g){
-    
+        windows.get(nowDrawingWindow).draw(g); 
     }
 
     // キー入力(押)
