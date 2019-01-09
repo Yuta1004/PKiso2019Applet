@@ -1,7 +1,10 @@
 import java.awt.*;
 
 public class GameWindow implements Window{
-    public GameWindow(){
+    private Main parentClass;
+    
+    public GameWindow(Main main){
+        parentClass = main;
     }
 
     public void init(){

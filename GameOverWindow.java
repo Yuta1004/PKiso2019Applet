@@ -1,7 +1,11 @@
 import java.awt.*;
 
 public class GameOverWindow implements Window{
-    public GameOverWindow(){
+    private Main parentClass;
+
+    
+    public GameOverWindow(Main main){
+        parentClass = main;
     }
 
     public void init(){

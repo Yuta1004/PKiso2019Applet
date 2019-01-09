@@ -1,7 +1,10 @@
 import java.awt.*;
 
 public class TitleWindow implements Window{
-    public TitleWindow(){
+    private Main parentClass;
+
+    public TitleWindow(Main main){
+        parentClass = main;
     }
 
     public void init(){

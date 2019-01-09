@@ -13,10 +13,10 @@ public class Main extends Applet implements Runnable, KeyListener{
     // システム初期化
     public void init(){
         nowDrawingWindow = "Title";
-        windows.put("Title", new TitleWindow());
-        windows.put("Game", new GameWindow());
-        windows.put("GameOver", new GameOverWindow());
-        
+        windows.put("Title", new TitleWindow(this));
+        windows.put("Game", new GameWindow(this));
+        windows.put("GameOver", new GameOverWindow(this));
+
         addKeyListener(this);
     }
 
