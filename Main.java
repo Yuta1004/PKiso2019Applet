@@ -13,7 +13,7 @@ public class Main extends Applet implements Runnable, KeyListener{
     // システム初期化
     public void init(){
         nowDrawingWindow = "Title";
-        windows.put("Title", new TitleWindow("Title1"));
+        windows.put("Title", new TitleWindow());
         
         addKeyListener(this);
     }
@@ -49,12 +49,12 @@ public class Main extends Applet implements Runnable, KeyListener{
 
     // キー入力(押)
     public void keyPressed(KeyEvent e){
-     
+        windows.get(nowDrawingWindow).keyPressed(e.getKeyChar()); 
     }
 
     // キー入力(離)
     public void keyReleased(KeyEvent e){
-
+        windows.get(nowDrawingWindow).keyReleased(e.getKeyChar());
     }
 
     // キー入力(使わない)
