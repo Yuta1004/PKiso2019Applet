@@ -26,10 +26,12 @@ public class Main extends Applet implements Runnable, KeyListener{
 
     // 画面更新担当
     public void run(){
-        try{
-            repaint();
-            Thread.sleep(10); 
-        }catch(InterruptedException e){}
+        while(true){
+            try{
+                repaint();
+                Thread.sleep(10); 
+            }catch(InterruptedException e){}
+        }
     }
 
     // 描画画面切り替え
