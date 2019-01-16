@@ -7,6 +7,8 @@ public class GameWindow implements Window{
     private ArrayList<Note> notes = new ArrayList<Note>();
     private Random random;
 
+    private int score = 0;
+
     // コンストラクタ    
     public GameWindow(Main main){
         parentClass = main;
@@ -25,6 +27,9 @@ public class GameWindow implements Window{
 
     // 描画
     public void draw(Graphics g){
+        // 各種情報
+        g.drawString("Score : " + Integer.toString(score), 600, 30);
+
         // 判定円
         g.drawOval(75, 200, 50, 50);
         g.drawOval(75, 450, 50, 50);
@@ -46,6 +51,8 @@ public class GameWindow implements Window{
                 judgedFlag = notes.get(idx).judge(1);
             }
         }
+
+        if(judgedFlag) score += 100;
     }
 
     // キーが離された時
