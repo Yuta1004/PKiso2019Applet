@@ -8,6 +8,7 @@ public class GameWindow implements Window{
     private Random random;
 
     private int score = 0;
+    private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
 
     // コンストラクタ    
     public GameWindow(Main main){
@@ -34,7 +35,12 @@ public class GameWindow implements Window{
         g.drawOval(75, 200, 50, 50);
         g.drawOval(75, 450, 50, 50);
 
+        // エフェクト
+        effects[0].draw(g);
+        effects[1].draw(g);
+
         // ノーツ
+        g.setColor(Color.black);
         for(Note drawNote : notes){
            drawNote.draw(g);
         }
@@ -53,6 +59,10 @@ public class GameWindow implements Window{
         }
 
         if(judgedFlag) score += 100;
+
+        // エフェクト再生
+        if(key == 'f') effects[0].start();
+        else if(key == 'j') effects[1].start();
     }
 
     // キーが離された時
@@ -99,5 +109,32 @@ class Note{
        }else{
            return false;
        }
+    }
+}
+
+// エフェクト
+class Effect{
+    private int x;
+    private int y;
+    private int size = 500;
+
+    // コンストラクタ
+    public Effect(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
+    // エフェクト描画
+    public void draw(Graphics g){
+        if(size < 150){
+            g.setColor(new Color(0, 0, 0, (int)(255-size*1.5)));
+            g.drawOval(x-size/2, y-size/2, size, size);
+            size += 5;
+        }
+    }
+
+    // エフェクト起動
+    public void start(){
+        size = 50;
     }
 }
