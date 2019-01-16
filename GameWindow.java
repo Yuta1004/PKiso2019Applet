@@ -10,10 +10,10 @@ public class GameWindow implements Window{
     public GameWindow(Main main){
         parentClass = main;
 
-        // random = new Random();
-        // for(int i = 0; i < 100; i++){
-        //    notes.add(new Note(random.nextInt(2), random.nextInt(1000)+300));
-        // }
+        random = new Random();
+        for(int i = 0; i < 100; i++){
+           notes.add(new Note(random.nextInt(2), random.nextInt(1000)+300));
+        }
     }
 
     public void init(){
@@ -21,9 +21,14 @@ public class GameWindow implements Window{
     }
 
     public void draw(Graphics g){
-        // for(Note drawNote : notes){
-        //    drawNote.draw(g);
-        // }
+        // 判定円
+        g.drawOval(75, 200, 50, 50);
+        g.drawOval(75, 450, 50, 50);
+
+        // ノーツ
+        for(Note drawNote : notes){
+           drawNote.draw(g);
+        }
     }
 
     public void keyPressed(char key){
@@ -46,14 +51,14 @@ class Note{
         if(lane == 0){
             this.yBias = 150;
         }else{
-            this.yBias = 350;
+            this.yBias = 400;
         }
     }
 
     public void draw(Graphics g){
         offset --;
-        if(offset > 700) return;
+        if(offset < -100 || 700 < offset) return;
 
-        g.drawOval((int)offset + 100, (int)(0.015 * (offset % 150 - 75) * (offset % 150 - 75)) + yBias, 40, 40);
+        g.drawOval((int)offset + 100 - 20, (int)(0.015 * (offset % 150 - 75) * (offset % 150 - 75)) + yBias - 20, 40, 40);
     }
 }
