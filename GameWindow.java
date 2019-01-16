@@ -13,7 +13,7 @@ public class GameWindow implements Window{
 
         // ノーツ生成(デバッグ用)
         random = new Random();
-        for(int i = 0; i < 100; i++){
+        for(int i = 0; i < 10; i++){
            notes.add(new Note(random.nextInt(2), random.nextInt(1000)+300));
         }
     }
@@ -37,7 +37,15 @@ public class GameWindow implements Window{
 
     // キーが押された時
     public void keyPressed(char key){
-        Main.changeWindow("GameOver");
+        // ジャッジ
+        boolean judgedFlag = false;
+        for(int idx = 0; idx < notes.size() && !judgedFlag; idx++){
+            if(key == 'f'){
+                judgedFlag = notes.get(idx).judge(0);
+            }else if(key == 'j'){
+                judgedFlag = notes.get(idx).judge(1);
+            }
+        }
     }
 
     // キーが離された時
@@ -50,6 +58,7 @@ class Note{
     private int lane;
     private int yBias;
     private float offset;
+    private boolean isAlive = true;
 
     // コンストラクタ
     public Note(int lane, float offset){
@@ -66,8 +75,22 @@ class Note{
     // ノーツ描画
     public void draw(Graphics g){
         offset --;
-        if(offset < -100 || 700 < offset) return;
+        if(offset < -100 || 700 < offset || !isAlive) return;
 
         g.drawOval((int)offset + 100 - 20, (int)(0.015 * (offset % 150 - 75) * (offset % 150 - 75)) + yBias - 20, 40, 40);
+    }
+
+    // ジャッジ
+    public boolean judge(int pressedLane){
+        // 判定レーンが違う
+       if(pressedLane != lane) return false; 
+
+       // +-10フレームでパーフェクト 
+       if(-10 < offset && offset < 10){
+           isAlive = false;
+           return true;
+       }else{
+           return false;
+       }
     }
 }
