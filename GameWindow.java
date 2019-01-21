@@ -6,9 +6,10 @@ public class GameWindow implements Window{
     private ArrayList<Note> notes = new ArrayList<Note>();
     
     private int score = 0;
-    private float bpm = 60;
+    private float bpm = 220;
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
     private Image bgImage, noteImg;
+    private int bgImageX = 0;
 
     // コンストラクタ    
     public GameWindow(Main main){
@@ -32,7 +33,10 @@ public class GameWindow implements Window{
     // 描画
     public void draw(Graphics g){
         // 背景
-        g.drawImage(bgImage, 0, 0, 700, 700, parentClass);
+        bgImageX -= 1;
+        if(bgImageX <= -700) bgImageX = 0;
+        g.drawImage(bgImage, bgImageX, 0, 700, 700, parentClass);
+        g.drawImage(bgImage, bgImageX+700, 0, 700, 700, parentClass);
 
         // 各種情報
         g.drawString("Score : " + Integer.toString(score), 600, 30);
