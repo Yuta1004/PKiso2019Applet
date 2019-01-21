@@ -16,8 +16,8 @@ public class GameWindow implements Window{
 
         // ノーツ生成(デバッグ用)
         random = new Random();
-        for(int i = 0; i < 10; i++){
-           notes.add(new Note(random.nextInt(2), random.nextInt(1000)+300));
+        for(int i = 0; i < 100; i++){
+           notes.add(new Note(random.nextInt(2), random.nextInt(1000) * 5 + 1000));
         }
     }
 
@@ -83,9 +83,9 @@ class Note{
         this.offset = offset;
 
         if(lane == 0){
-            this.yBias = 150;
+            this.yBias = 130;
         }else{
-            this.yBias = 400;
+            this.yBias = 380;
         }
     }
 
@@ -94,7 +94,7 @@ class Note{
         offset --;
         if(offset < -100 || 700 < offset || !isAlive) return;
 
-        g.drawOval((int)offset + 100 - 20, (int)(0.015 * (offset % 150 - 75) * (offset % 150 - 75)) + yBias - 20, 40, 40);
+        g.drawOval((int)offset + 100 - 20, (int)(0.01 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 20, 40, 40);
     }
 
     // ジャッジ
