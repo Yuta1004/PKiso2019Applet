@@ -1,24 +1,26 @@
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameWindow implements Window{
     private Main parentClass;
     private ArrayList<Note> notes = new ArrayList<Note>();
-    private Random random;
-
+    
     private int score = 0;
-    private float bpm = 220;
+    private float bpm = 60;
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
+    private Image bgImage, noteImg;
 
     // コンストラクタ    
     public GameWindow(Main main){
         parentClass = main;
 
+        // 画像読み込み
+        bgImage = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_mori_1.png");
+        noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/ishi_stone.png");
+
         // ノーツ生成(デバッグ用)
-        random = new Random();
         for(int i = 0; i < 100; i++){
-           notes.add(new Note(random.nextInt(2),i * 200 + 1000, bpm));
+           notes.add(new Note(0, i * 200 + 1000, bpm));
         }
     }
 
@@ -29,6 +31,9 @@ public class GameWindow implements Window{
 
     // 描画
     public void draw(Graphics g){
+        // 背景
+        g.drawImage(bgImage, 0, 0, 700, 700, parentClass);
+
         // 各種情報
         g.drawString("Score : " + Integer.toString(score), 600, 30);
 
@@ -40,10 +45,13 @@ public class GameWindow implements Window{
         effects[0].draw(g);
         effects[1].draw(g);
 
-        // ノーツ
+        // ノーツ 
         g.setColor(Color.black);
         for(Note drawNote : notes){
-           drawNote.draw(g);
+           Pos notePos = drawNote.getDrawPos();
+           if(notePos.x != -1){
+                g.drawImage(noteImg, notePos.x, notePos.y, 60, 60, parentClass);
+           }
         }
     }
 
@@ -59,6 +67,7 @@ public class GameWindow implements Window{
             }
         }
 
+        // スコア反映
         if(judgedFlag) score += 100;
 
         // エフェクト再生
@@ -94,12 +103,12 @@ class Note{
         }
     }
 
-    // ノーツ描画
-    public void draw(Graphics g){
+    // ノーツの座標を返す
+    public Pos getDrawPos(){
         offset -= noteXSpeed;
-        if(offset < -100 || 700 < offset || !isAlive) return;
+        if(offset < -100 || 700 < offset || !isAlive) return new Pos(-1, -1);
 
-        g.drawOval((int)offset + 100 - 20, (int)(0.01 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 20, 40, 40);
+        return new Pos((int)offset + 100 - 30, (int)(0.01 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 30);
     }
 
     // ジャッジ
@@ -114,6 +123,16 @@ class Note{
        }else{
            return false;
        }
+    }
+}
+
+// 座標管理クラス
+class Pos{
+    public int x, y;
+    
+    public Pos(int x, int y){
+        this.x = x;
+        this.y = y;
     }
 }
 
