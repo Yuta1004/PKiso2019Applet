@@ -8,6 +8,7 @@ public class GameWindow implements Window{
     private Random random;
 
     private int score = 0;
+    private float bpm = 220;
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
 
     // コンストラクタ    
@@ -17,7 +18,7 @@ public class GameWindow implements Window{
         // ノーツ生成(デバッグ用)
         random = new Random();
         for(int i = 0; i < 100; i++){
-           notes.add(new Note(random.nextInt(2), random.nextInt(1000) * 5 + 1000));
+           notes.add(new Note(random.nextInt(2),i * 200 + 1000, bpm));
         }
     }
 
@@ -75,12 +76,16 @@ class Note{
     private int lane;
     private int yBias;
     private float offset;
+    private float bpm;
     private boolean isAlive = true;
+    private float noteXSpeed;
 
     // コンストラクタ
-    public Note(int lane, float offset){
+    public Note(int lane, float offset, float bpm){
         this.lane = lane;
         this.offset = offset;
+        this.bpm = bpm;
+        this.noteXSpeed = (float)(240.0) / (float)(3000.0 / bpm);
 
         if(lane == 0){
             this.yBias = 130;
@@ -91,7 +96,7 @@ class Note{
 
     // ノーツ描画
     public void draw(Graphics g){
-        offset --;
+        offset -= noteXSpeed;
         if(offset < -100 || 700 < offset || !isAlive) return;
 
         g.drawOval((int)offset + 100 - 20, (int)(0.01 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 20, 40, 40);

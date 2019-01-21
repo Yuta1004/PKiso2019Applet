@@ -34,7 +34,7 @@ public class Main extends Applet implements Runnable, KeyListener{
         while(true){
             try{
                 repaint();
-                Thread.sleep(10); 
+                Thread.sleep(20); 
             }catch(InterruptedException e){}
         }
     }
