@@ -108,7 +108,7 @@ class Note{
        if(pressedLane != lane) return false; 
 
        // +-10フレームでパーフェクト 
-       if(-10 < offset && offset < 10){
+       if(-10 * noteXSpeed < offset && offset < 10 * noteXSpeed){
            isAlive = false;
            return true;
        }else{
