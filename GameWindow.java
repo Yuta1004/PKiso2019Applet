@@ -2,6 +2,7 @@ import java.applet.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.lang.Math;
+import java.io.*;
 
 public class GameWindow implements Window{
     private Main parentClass;
@@ -28,6 +29,9 @@ public class GameWindow implements Window{
 
         // 曲読み込み
         music = parentClass.getAudioClip(parentClass.getCodeBase(), "./res/hardcore.wav");
+
+        // 譜面データ読み込み
+        loadData("./res/hardcore.txt");
 
         // ノーツ生成(デバッグ用)
         for(int i = 0; i < 100; i++){
@@ -120,6 +124,34 @@ public class GameWindow implements Window{
 
     // キーが離された時
     public void keyReleased(char key){
+    }
+
+    // 譜面読み込み
+    private boolean loadData(String path){
+        File gameDataFile;
+        FileReader fileReader;
+        BufferedReader br;
+        
+        // ファイルを開く
+        try{
+            gameDataFile = new File(path);
+            fileReader = new FileReader(gameDataFile);  
+            br = new BufferedReader(fileReader);
+        }catch(FileNotFoundException e){
+            return false;
+        }
+
+        // ファイル読み込み
+        try{
+            String line;
+            while((line = br.readLine()) != null){
+                System.out.println(line);   
+            }
+        }catch(IOException e){
+            return false;
+        }
+         
+        return true;
     }
 }
 
