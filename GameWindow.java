@@ -1,3 +1,4 @@
+import java.applet.*;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -6,10 +7,11 @@ public class GameWindow implements Window{
     private ArrayList<Note> notes = new ArrayList<Note>();
     
     private int score = 0;
-    private float bpm = 220;
+    private float bpm = 160;
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
     private Image bgImage, noteImg;
     private int bgImageX = 0;
+    private AudioClip music;
 
     // コンストラクタ    
     public GameWindow(Main main){
@@ -18,6 +20,10 @@ public class GameWindow implements Window{
         // 画像読み込み
         bgImage = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_mori_1.png");
         noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/ishi_stone.png");
+
+        // 曲読み込み
+        music = parentClass.getAudioClip(parentClass.getCodeBase(), "./res/hardcore.wav");
+        music.play();
 
         // ノーツ生成(デバッグ用)
         for(int i = 0; i < 100; i++){
