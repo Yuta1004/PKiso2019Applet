@@ -1,11 +1,16 @@
 import java.applet.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class GameWindow implements Window{
     private Main parentClass;
     private ArrayList<Note> notes = new ArrayList<Note>();
-    
+    private int frameCount = 0;
+  
+    private int startAnimationPos = 0;
+    private Font startAnimationFont = new Font("Monospaced", Font.BOLD, 40);
+ 
     private int score = 0;
     private float bpm = 160;
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
@@ -38,6 +43,8 @@ public class GameWindow implements Window{
 
     // 描画
     public void draw(Graphics g){
+        frameCount ++;
+
         // 背景
         bgImageX -= 1;
         if(bgImageX <= -700) bgImageX = 0;
@@ -46,7 +53,33 @@ public class GameWindow implements Window{
 
         // 各種情報
         g.drawString("Score : " + Integer.toString(score), 600, 30);
+        
+        // ゲーム再生前演出
+        if(frameCount < 200){
+            int alpha = Math.max(0, 250 - Math.max(0, startAnimationPos - 600) / 2);
 
+            // ぼかし
+            g.setColor(new Color(255, 255, 255, Math.max(0, alpha-70)));
+            g.fillRect(0, 0, 700, 700);
+
+            // 曲名とそれっぽい棒
+            g.setColor(new Color(0, 0, 0, alpha));
+            g.setFont(startAnimationFont);
+            g.drawString("hardcore.wav", startAnimationPos-100, startAnimationPos-10);
+            g.drawLine(800 - startAnimationPos, 0, startAnimationPos - 100, 700);
+            g.drawLine(1300 - startAnimationPos, 0, startAnimationPos - 500, 700);
+            g.drawLine(startAnimationPos - 400, 0, 1400 - startAnimationPos, 700);
+            g.drawLine(startAnimationPos - 200, 0, startAnimationPos + 200, 700);
+
+            // アニメーション
+            if(startAnimationPos < 270 || 370 < startAnimationPos){
+                startAnimationPos += 15;
+            }else{
+                startAnimationPos += 1;
+            }
+            return;
+        }
+        
         // 判定円
         g.drawOval(75, 200, 50, 50);
         g.drawOval(75, 450, 50, 50);
