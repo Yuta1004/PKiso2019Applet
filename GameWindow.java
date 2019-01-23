@@ -28,7 +28,6 @@ public class GameWindow implements Window{
 
         // 曲読み込み
         music = parentClass.getAudioClip(parentClass.getCodeBase(), "./res/hardcore.wav");
-        music.play();
 
         // ノーツ生成(デバッグ用)
         for(int i = 0; i < 100; i++){
@@ -78,7 +77,8 @@ public class GameWindow implements Window{
                 startAnimationPos += 1;
             }
             return;
-        }
+        
+        }else if(frameCount == 200){ music.play(); }
         
         // 判定円
         g.drawOval(75, 200, 50, 50);
