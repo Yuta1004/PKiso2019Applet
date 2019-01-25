@@ -14,9 +14,9 @@ public class Note{
         this.noteXSpeed = (float)(200.0) / (float)(6000.0 / bpm);
 
         if(lane == 0){
-            this.yBias = 130;
+            this.yBias = 150;
         }else{
-            this.yBias = 380;
+            this.yBias = 400;
         }
     }
 
@@ -24,7 +24,7 @@ public class Note{
     public Pos getDrawPos(){
         if(offset < -100 || 700 < offset || !isAlive) return new Pos(-1, -1);
 
-        return new Pos((int)offset + 100 - 30, (int)(0.01 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 30);
+        return new Pos((int)offset + 100 - 30, (int)(0.007 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 30);
     }
 
     // ノーツ移動
