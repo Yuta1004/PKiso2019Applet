@@ -1,6 +1,7 @@
 import java.applet.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.*;
 import java.lang.Math;
 import java.io.*;
 import javax.sound.sampled.*;
@@ -33,6 +34,14 @@ public class GameWindow implements Window{
 
         // 譜面データ読み込み
         loadData("./res/hardcore.txt");
+
+        // ノーツ移動スレッドを建てる
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(()->{
+            for(Note note: notes){
+                note.move();
+            }
+        }, 6070, 10, TimeUnit.MILLISECONDS);
 
         // ノーツ生成(デバッグ用)
         for(int i = 0; i < 100; i++){
@@ -192,7 +201,7 @@ class Note{
         this.lane = lane;
         this.offset = offset;
         this.bpm = bpm;
-        this.noteXSpeed = (float)(240.0) / (float)(3000.0 / bpm);
+        this.noteXSpeed = (float)(200.0) / (float)(6000.0 / bpm);
 
         if(lane == 0){
             this.yBias = 130;
@@ -203,10 +212,14 @@ class Note{
 
     // ノーツの座標を返す
     public Pos getDrawPos(){
-        offset -= noteXSpeed;
         if(offset < -100 || 700 < offset || !isAlive) return new Pos(-1, -1);
 
         return new Pos((int)offset + 100 - 30, (int)(0.01 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 30);
+    }
+
+    // ノーツ移動
+    public void move(){
+        offset -= noteXSpeed;
     }
 
     // ジャッジ
