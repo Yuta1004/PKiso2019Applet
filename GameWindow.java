@@ -40,11 +40,6 @@ public class GameWindow implements Window{
 
         // 曲読み込み
         music = getAudioClip(new File("./res/hardcore.wav"));
-
-        // ノーツ生成(デバッグ用)
-        for(int i = 0; i < 100; i++){
-           notes.add(new Note(0, i * 200 + 1000, bpm));
-        }
     }
 
     // 画面のイニシャライザ
@@ -183,8 +178,38 @@ public class GameWindow implements Window{
         // ファイル読み込み
         try{
             String line;
+            int tempo = 4;
+            float putPos = 0;
+
+            // 1行ずつ読み込んでいく
             while((line = br.readLine()) != null){
-                System.out.println(line);
+                // コメント or 空行
+                if(line.equals("") || line.contains("//")) continue;
+
+                // 設定読み込み
+                if(line.contains("#")){
+                    if(line.contains("#BPM")){
+                        bpm = Integer.parseInt(line.split(" ")[1]);
+                    }else if(line.contains("#DELAY")){
+                        delay = Integer.parseInt(line.split(" ")[1]);
+                    }else if(line.contains("#TITLE")){
+                        title = line.split(" ")[1];
+                    }else if(line.contains("#MUSICFILE")){
+                        musicFile = line.split(" ")[1];
+                    }else if(line.contains("#TEMPO")){
+                        tempo = Integer.parseInt(line.split(" ")[1]);
+                    }
+                    continue;
+                }
+
+                // ノーツ読み込み
+                for(String note: line.split(",")){
+                    if(note.equals("0") || note.equals("1")){
+                        notes.add(new Note(Integer.parseInt(note), putPos, bpm));
+                    }
+                    System.out.println(putPos);
+                    putPos += 200 * (float)(4.0 / tempo);
+                }
             }
         }catch(IOException e){
             return false;
