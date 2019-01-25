@@ -119,16 +119,17 @@ public class GameWindow implements Window{
 
     // キーが押された時
     public void keyPressed(char key){
+        // キー押しっぱなしは無効
+        if((key == 'f' && f_KeyPressing) || (key == 'j' && j_KeyPressing)) return;
+
         // ジャッジ
         boolean judgedFlag = false;
         int idx = 0;
         for(; idx < notes.size() && !judgedFlag && notes.get(idx).getDrawPos().x < 300; idx++){
-            if(key == 'f' && !f_KeyPressing){
+            if(key == 'f'){
                 judgedFlag = notes.get(idx).judge(0);
-                f_KeyPressing = judgedFlag;
-            }else if(key == 'j' && !j_KeyPressing){
+            }else if(key == 'j'){
                 judgedFlag = notes.get(idx).judge(1);
-                j_KeyPressing = judgedFlag;
             }
         }
 
@@ -138,9 +139,14 @@ public class GameWindow implements Window{
             notes.remove(idx-1);
         }
 
-        // エフェクト再生
-        if(key == 'f') effects[0].start();
-        else if(key == 'j') effects[1].start();
+        // キー状態更新 + エフェクト再生
+        if(key == 'f'){
+            f_KeyPressing = true;
+            effects[0].start();
+        }else if(key == 'j'){
+            j_KeyPressing = true;
+            effects[1].start();
+        }
     }
 
     // キーが離された時
