@@ -35,14 +35,6 @@ public class GameWindow implements Window{
         // 譜面データ読み込み
         loadData("./res/hardcore.txt");
 
-        // ノーツ移動スレッドを建てる
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(()->{
-            for(Note note: notes){
-                note.move();
-            }
-        }, 6070, 10, TimeUnit.MILLISECONDS);
-
         // ノーツ生成(デバッグ用)
         for(int i = 0; i < 100; i++){
            notes.add(new Note(0, i * 200 + 1000, bpm));
@@ -67,7 +59,7 @@ public class GameWindow implements Window{
         // 各種情報
         g.drawString("Score : " + Integer.toString(score), 600, 30);
 
-        // ゲーム再生前演出
+        // 200フレームまでゲーム再生前演出
         if(frameCount < 200){
             int alpha = Math.max(0, 250 - Math.max(0, startAnimationPos - 600) / 2);
 
@@ -92,7 +84,16 @@ public class GameWindow implements Window{
             }
             return;
         }
-        else if(frameCount == 200){
+
+        // ゲームスタート
+        if(frameCount == 200){
+            // ノーツ移動スレッドを建てる -> 音楽再生
+            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+            service.scheduleAtFixedRate(()->{
+                for(Note note: notes){
+                    note.move();
+                }
+            }, 120, 10, TimeUnit.MILLISECONDS);
             music.start();
         }
 
