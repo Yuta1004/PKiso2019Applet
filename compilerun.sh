@@ -1,3 +1,6 @@
+echo "Cleaning..."
+rm *.class
+
 echo "Compiling..."
 javac Main.java
 
