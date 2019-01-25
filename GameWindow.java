@@ -9,10 +9,10 @@ public class GameWindow implements Window{
     private Main parentClass;
     private ArrayList<Note> notes = new ArrayList<Note>();
     private int frameCount = 0;
-  
+
     private int startAnimationPos = 0;
     private Font startAnimationFont = new Font("Monospaced", Font.BOLD, 40);
- 
+
     private int score = 0;
     private float bpm = 160;
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
@@ -20,7 +20,7 @@ public class GameWindow implements Window{
     private int bgImageX = 0;
     private Clip music;
 
-    // コンストラクタ    
+    // コンストラクタ
     public GameWindow(Main main){
         parentClass = main;
 
@@ -57,7 +57,7 @@ public class GameWindow implements Window{
 
         // 各種情報
         g.drawString("Score : " + Integer.toString(score), 600, 30);
-        
+
         // ゲーム再生前演出
         if(frameCount < 200){
             int alpha = Math.max(0, 250 - Math.max(0, startAnimationPos - 600) / 2);
@@ -86,7 +86,7 @@ public class GameWindow implements Window{
         else if(frameCount == 200){
             music.start();
         }
-        
+
         // 判定円
         g.drawOval(75, 200, 50, 50);
         g.drawOval(75, 450, 50, 50);
@@ -95,7 +95,7 @@ public class GameWindow implements Window{
         effects[0].draw(g);
         effects[1].draw(g);
 
-        // ノーツ 
+        // ノーツ
         g.setColor(Color.black);
         for(Note drawNote : notes){
            Pos notePos = drawNote.getDrawPos();
@@ -154,11 +154,11 @@ public class GameWindow implements Window{
         File gameDataFile;
         FileReader fileReader;
         BufferedReader br;
-        
+
         // ファイルを開く
         try{
             gameDataFile = new File(path);
-            fileReader = new FileReader(gameDataFile);  
+            fileReader = new FileReader(gameDataFile);
             br = new BufferedReader(fileReader);
         }catch(FileNotFoundException e){
             return false;
@@ -168,12 +168,12 @@ public class GameWindow implements Window{
         try{
             String line;
             while((line = br.readLine()) != null){
-                System.out.println(line);   
+                System.out.println(line);
             }
         }catch(IOException e){
             return false;
         }
-         
+
         return true;
     }
 }
@@ -212,9 +212,9 @@ class Note{
     // ジャッジ
     public boolean judge(int pressedLane){
         // 判定レーンが違う
-       if(pressedLane != lane) return false; 
+       if(pressedLane != lane) return false;
 
-       // +-10フレームでパーフェクト 
+       // +-10フレームでパーフェクト
        if(-10 * noteXSpeed < offset && offset < 10 * noteXSpeed){
            isAlive = false;
            return true;
@@ -227,7 +227,7 @@ class Note{
 // 座標管理クラス
 class Pos{
     public int x, y;
-    
+
     public Pos(int x, int y){
         this.x = x;
         this.y = y;

@@ -10,7 +10,7 @@ public class Main extends Applet implements Runnable, KeyListener{
     private static String nowDrawingWindow = "";
     private static HashMap<String, Window> windows = new HashMap<String, Window>();
     private Image bufImage;
-    
+
     // システム初期化
     public void init(){
         nowDrawingWindow = "Title";
@@ -34,7 +34,7 @@ public class Main extends Applet implements Runnable, KeyListener{
         while(true){
             try{
                 repaint();
-                Thread.sleep(20); 
+                Thread.sleep(20);
             }catch(InterruptedException e){}
         }
     }
@@ -50,7 +50,7 @@ public class Main extends Applet implements Runnable, KeyListener{
             return false;
         }
     }
-    
+
     // 各画面の描画メソッドを呼ぶ
     public void paint(Graphics g){
         // ダブルバッファ
@@ -60,7 +60,7 @@ public class Main extends Applet implements Runnable, KeyListener{
         // アンチエイリアシング
         Graphics2D g2 = (Graphics2D)gb;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        
+
         windows.get(nowDrawingWindow).draw(g2);
 
         g.drawImage(bufImage, 0, 0, 700, 700, this);
@@ -68,7 +68,7 @@ public class Main extends Applet implements Runnable, KeyListener{
 
     // キー入力(押)
     public void keyPressed(KeyEvent e){
-        windows.get(nowDrawingWindow).keyPressed(e.getKeyChar()); 
+        windows.get(nowDrawingWindow).keyPressed(e.getKeyChar());
     }
 
     // キー入力(離)

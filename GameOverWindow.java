@@ -3,7 +3,7 @@ import java.awt.*;
 public class GameOverWindow implements Window{
     private Main parentClass;
 
-    
+
     public GameOverWindow(Main main){
         parentClass = main;
     }
