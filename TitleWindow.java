@@ -1,12 +1,14 @@
 import java.awt.*;
 import javax.sound.sampled.*;
 import java.io.*;
+import java.lang.Math.*;
 
 public class TitleWindow implements Window{
     private Main parentClass;
 
     private Image bgImg, rectImg, manImg, womanImg, titleLetters[] = new Image[4];
     private Clip music;
+    private int frameCount = 0;
 
     public TitleWindow(Main main){
         parentClass = main;
@@ -31,10 +33,12 @@ public class TitleWindow implements Window{
     }
 
     public void draw(Graphics g){
+        frameCount ++;
+
         // 背景
         g.drawImage(bgImg, 0, 0, 700, 700, parentClass);
-        g.drawImage(manImg, 0, 500, parentClass);
-        g.drawImage(womanImg, 520, 500, parentClass);
+        g.drawImage(manImg, 0, 500 + (int)(20 * Math.sin(frameCount / 5.0 + 500)), parentClass);
+        g.drawImage(womanImg, 520, 500 + (int)(20 * Math.sin(frameCount / 5.0)), parentClass);
 
         // タイトル
         g.drawImage(rectImg, 120, 115, 460, 170, parentClass);
