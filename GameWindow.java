@@ -3,6 +3,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.lang.Math;
 import java.io.*;
+import javax.sound.sampled.*;
 
 public class GameWindow implements Window{
     private Main parentClass;
@@ -17,7 +18,7 @@ public class GameWindow implements Window{
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
     private Image bgImage, noteImg;
     private int bgImageX = 0;
-    private AudioClip music;
+    private Clip music;
 
     // コンストラクタ    
     public GameWindow(Main main){
@@ -28,7 +29,7 @@ public class GameWindow implements Window{
         noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/ishi_stone.png");
 
         // 曲読み込み
-        music = parentClass.getAudioClip(parentClass.getCodeBase(), "./res/hardcore.wav");
+        music = getAudioClip(new File("./res/hardcore.wav"));
 
         // 譜面データ読み込み
         loadData("./res/hardcore.txt");
@@ -81,8 +82,10 @@ public class GameWindow implements Window{
                 startAnimationPos += 1;
             }
             return;
-        
-        }else if(frameCount == 200){ music.play(); }
+        }
+        else if(frameCount == 200){
+            music.start();
+        }
         
         // 判定円
         g.drawOval(75, 200, 50, 50);
@@ -124,6 +127,26 @@ public class GameWindow implements Window{
 
     // キーが離された時
     public void keyReleased(char key){
+    }
+
+    // 音楽ファイル読み込み
+    private Clip getAudioClip(File path){
+        Clip clip;
+
+        try (AudioInputStream ais = AudioSystem.getAudioInputStream(path)){
+            // 音楽データ読み込み
+            AudioFormat af = ais.getFormat();
+            DataLine.Info dataline = new DataLine.Info(Clip.class, af);
+
+            // データに対応するラインを取得 -> 返す
+            clip = (Clip)AudioSystem.getLine(dataline);
+            clip.open(ais);
+            return clip;
+        }
+        catch(Exception e){
+            System.err.println("Music File Load Error!!");
+            return null;
+        }
     }
 
     // 譜面読み込み
