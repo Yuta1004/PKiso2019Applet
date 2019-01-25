@@ -20,6 +20,7 @@ public class GameWindow implements Window{
     private float bpm = 160;
     private String title, musicFile;
     private int delay;
+    private boolean f_KeyPressing = false, j_KeyPressing = false;
 
     // 描画関連
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
@@ -120,16 +121,22 @@ public class GameWindow implements Window{
     public void keyPressed(char key){
         // ジャッジ
         boolean judgedFlag = false;
-        for(int idx = 0; idx < notes.size() && !judgedFlag; idx++){
-            if(key == 'f'){
+        int idx = 0;
+        for(; idx < notes.size() && !judgedFlag && notes.get(idx).getDrawPos().x < 300; idx++){
+            if(key == 'f' && !f_KeyPressing){
                 judgedFlag = notes.get(idx).judge(0);
-            }else if(key == 'j'){
+                f_KeyPressing = judgedFlag;
+            }else if(key == 'j' && !j_KeyPressing){
                 judgedFlag = notes.get(idx).judge(1);
+                j_KeyPressing = judgedFlag;
             }
         }
 
         // スコア反映
-        if(judgedFlag) score += 100;
+        if(judgedFlag){
+            score += 100;
+            notes.remove(idx-1);
+        }
 
         // エフェクト再生
         if(key == 'f') effects[0].start();
@@ -138,6 +145,8 @@ public class GameWindow implements Window{
 
     // キーが離された時
     public void keyReleased(char key){
+        if(key == 'f') f_KeyPressing = false;
+        else if(key == 'j') j_KeyPressing = false;
     }
 
     // 音楽ファイル読み込み
