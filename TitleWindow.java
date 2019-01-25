@@ -9,6 +9,8 @@ public class TitleWindow implements Window{
     private Image bgImg, rectImg, manImg, womanImg, titleLetters[] = new Image[4];
     private Clip music;
     private int frameCount = 0;
+    private boolean isMoving = false;
+    private int moveFrame = 0;
 
     public TitleWindow(Main main){
         parentClass = main;
@@ -45,12 +47,31 @@ public class TitleWindow implements Window{
         for(int idx = 0; idx < 4; idx++){
             g.drawImage(titleLetters[idx], idx * 100 + 150, 150, 100, 100, parentClass);
         }
+
+        // 画面遷移中アニメーション
+        if(isMoving){
+            moveFrame ++;
+            g.setColor(new Color(200, 200, 200, Math.min(255, (int)(moveFrame*1.8)) ));
+            g.fillRect(0, 0, 700, 700);
+
+            // 音楽フェードアウト
+            FloatControl gainControl = (FloatControl)music.getControl(FloatControl.Type.MASTER_GAIN);
+            float range = gainControl.getMaximum() - gainControl.getMinimum();
+            float gain = (range * (1.0f - moveFrame / (float)190.0)) + gainControl.getMinimum();
+            gainControl.setValue(gain);
+
+            // 一定時間経過後に画面遷移
+            if(moveFrame >= 255/1.8){
+                Main.changeWindow("Game");
+                music.stop();
+                music.flush();
+                isMoving = false;
+            }
+        }
     }
 
     public void keyPressed(char key){
-        Main.changeWindow("Game");
-        music.stop();
-        music.flush();
+        isMoving = true;
     }
 
     public void keyReleased(char key){
