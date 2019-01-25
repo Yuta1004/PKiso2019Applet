@@ -49,6 +49,8 @@ public class TitleWindow implements Window{
 
     public void keyPressed(char key){
         Main.changeWindow("Game");
+        music.stop();
+        music.flush();
     }
 
     public void keyReleased(char key){
