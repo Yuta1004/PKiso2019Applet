@@ -11,11 +11,17 @@ public class GameWindow implements Window{
     private ArrayList<Note> notes = new ArrayList<Note>();
     private int frameCount = 0;
 
+    // スタートアニメーション
     private int startAnimationPos = 0;
     private Font startAnimationFont = new Font("Monospaced", Font.BOLD, 40);
 
+    // 音ゲ設定
     private int score = 0;
     private float bpm = 160;
+    private String title, musicFile;
+    private int delay;
+
+    // 描画関連
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
     private Image bgImage, noteImg;
     private int bgImageX = 0;
@@ -29,11 +35,11 @@ public class GameWindow implements Window{
         bgImage = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_mori_1.png");
         noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/ishi_stone.png");
 
-        // 曲読み込み
-        music = getAudioClip(new File("./res/hardcore.wav"));
-
         // 譜面データ読み込み
         loadData("./res/hardcore.txt");
+
+        // 曲読み込み
+        music = getAudioClip(new File("./res/hardcore.wav"));
 
         // ノーツ生成(デバッグ用)
         for(int i = 0; i < 100; i++){
@@ -70,7 +76,7 @@ public class GameWindow implements Window{
             // 曲名とそれっぽい棒
             g.setColor(new Color(0, 0, 0, alpha));
             g.setFont(startAnimationFont);
-            g.drawString("hardcore.wav", startAnimationPos-100, startAnimationPos-10);
+            g.drawString(title, startAnimationPos-100, startAnimationPos-10);
             g.drawLine(800 - startAnimationPos, 0, startAnimationPos - 100, 700);
             g.drawLine(1300 - startAnimationPos, 0, startAnimationPos - 500, 700);
             g.drawLine(startAnimationPos - 400, 0, 1400 - startAnimationPos, 700);
@@ -93,7 +99,7 @@ public class GameWindow implements Window{
                 for(Note note: notes){
                     note.move();
                 }
-            }, 120, 10, TimeUnit.MILLISECONDS);
+            }, delay, 10, TimeUnit.MILLISECONDS);
             music.start();
         }
 
