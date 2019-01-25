@@ -216,7 +216,6 @@ public class GameWindow implements Window{
                     if(note.equals("0") || note.equals("1")){
                         notes.add(new Note(Integer.parseInt(note), putPos, bpm));
                     }
-                    System.out.println(putPos);
                     putPos += 200 * (float)(4.0 / tempo);
                 }
             }
