@@ -25,7 +25,7 @@ public class GameWindow implements Window{
     // 描画関連
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
     private Image bgImage, noteImg;
-    private int bgImageX = 0;
+    private int bgImageX = 0, bgScrollSpeed;
     private Clip music;
 
     // コンストラクタ
@@ -53,7 +53,7 @@ public class GameWindow implements Window{
         frameCount ++;
 
         // 背景
-        bgImageX -= 1;
+        bgImageX -= bgScrollSpeed;
         if(bgImageX <= -700) bgImageX = 0;
         g.drawImage(bgImage, bgImageX, 0, 700, 700, parentClass);
         g.drawImage(bgImage, bgImageX+700, 0, 700, 700, parentClass);
@@ -211,6 +211,8 @@ public class GameWindow implements Window{
                         title = line.split(" ")[1];
                     }else if(line.contains("#MUSICFILE")){
                         musicFile = line.split(" ")[1];
+                    }else if(line.contains("#BGSPEED")){
+                        bgScrollSpeed = Integer.parseInt(line.split(" ")[1]);
                     }else if(line.contains("#TEMPO")){
                         tempo = Integer.parseInt(line.split(" ")[1]);
                     }
