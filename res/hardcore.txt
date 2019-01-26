@@ -1,6 +1,6 @@
 #BPM 160
 #DELAY 120
-#TITLE !!!HARDCORE!!!
+#TITLE Hadephobia
 #MUSICFILE ./res/hardcore.wav
 #BGSPEED 5
 
