@@ -11,6 +11,7 @@ public class TitleWindow implements Window{
     private int frameCount = 0;
     private boolean isMoving = false;
     private int moveFrame = 0;
+    private Font pressKeyFont = new Font("Monospaced", Font.BOLD, 30);
 
     public TitleWindow(Main main){
         parentClass = main;
@@ -55,6 +56,10 @@ public class TitleWindow implements Window{
         for(int idx = 0; idx < 4; idx++){
             g.drawImage(titleLetters[idx], idx * 100 + 150, 150, 100, 100, parentClass);
         }
+
+        // キーを押すように誘導する表示
+        g.setFont(pressKeyFont);
+        g.drawString("Press any key to start Game", 110, 440);
 
         // 画面遷移中アニメーション
         if(isMoving){
