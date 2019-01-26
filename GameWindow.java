@@ -16,10 +16,9 @@ public class GameWindow implements Window{
     private Font startAnimationFont = new Font("Monospaced", Font.BOLD, 40);
 
     // 音ゲ設定
-    private int score = 0;
+    private int score = 0, delay, noteNum;
     private float bpm = 160;
     private String title, musicFile;
-    private int delay;
     private boolean f_KeyPressing = false, j_KeyPressing = false;
 
     // 描画関連
@@ -27,6 +26,7 @@ public class GameWindow implements Window{
     private Image bgImage, noteImg;
     private int bgImageX = 0, bgScrollSpeed;
     private Clip music;
+    private Font scoreDrawFont = new Font("Monospaced", Font.BOLD, 80);
 
     // コンストラクタ
     public GameWindow(Main main){
@@ -38,6 +38,7 @@ public class GameWindow implements Window{
 
         // 譜面データ読み込み
         loadData("./res/hardcore.txt");
+        noteNum = notes.size();
 
         // 曲読み込み
         music = getAudioClip(new File("./res/hardcore.wav"));
@@ -59,7 +60,9 @@ public class GameWindow implements Window{
         g.drawImage(bgImage, bgImageX+700, 0, 700, 700, parentClass);
 
         // 各種情報
-        g.drawString("Score : " + Integer.toString(score), 600, 30);
+        g.setFont(scoreDrawFont);
+        g.setColor(new Color(0, 0, 0, 40));
+        g.drawString(String.format("%.2f %%", (float)score / noteNum), 230, 360);
 
         // 200フレームまでゲーム再生前演出
         if(frameCount < 200){
@@ -100,6 +103,7 @@ public class GameWindow implements Window{
         }
 
         // 判定円
+        g.setColor(Color.black);
         g.drawOval(75, 200, 50, 50);
         g.drawOval(75, 450, 50, 50);
 
