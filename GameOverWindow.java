@@ -1,4 +1,6 @@
 import java.awt.*;
+import java.io.*;
+import javax.sound.sampled.*;
 
 public class GameOverWindow implements Window{
     private Main parentClass;
@@ -7,6 +9,7 @@ public class GameOverWindow implements Window{
     private String scoreStr;
     private Image bgImg, scoreboardImg, percentImg, rankImg, resultImg;
     private Image letterGameOver[] = new Image[100];
+    private Clip music;
 
     public GameOverWindow(Main main){
         parentClass = main;
@@ -34,6 +37,9 @@ public class GameOverWindow implements Window{
         else if(score > 70.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/C.png");
         else rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/D.png");
 
+        // 音楽読み込み
+        music = getAudioClip(new File("./res/syabondama.wav"));
+        music.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void draw(Graphics g){
@@ -52,9 +58,30 @@ public class GameOverWindow implements Window{
     }
 
     public void keyPressed(char key){
+        music.stop();
         Main.changeWindow("Title");
     }
 
     public void keyReleased(char key){
+    }
+
+    // 音楽ファイル読み込み
+    private Clip getAudioClip(File path){
+        Clip clip;
+
+        try (AudioInputStream ais = AudioSystem.getAudioInputStream(path)){
+            // 音楽データ読み込み
+            AudioFormat af = ais.getFormat();
+            DataLine.Info dataline = new DataLine.Info(Clip.class, af);
+
+            // データに対応するラインを取得 -> 返す
+            clip = (Clip)AudioSystem.getLine(dataline);
+            clip.open(ais);
+            return clip;
+        }
+        catch(Exception e){
+            System.err.println("Music File Load Error!!");
+            return null;
+        }
     }
 }
