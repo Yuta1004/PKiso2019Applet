@@ -62,40 +62,13 @@ public class GameWindow implements Window{
 
         // 200フレームまでゲーム再生前演出
         if(frameCount < 200){
-            int alpha = Math.max(0, 250 - Math.max(0, startAnimationPos - 600) / 2);
-
-            // ぼかし
-            g.setColor(new Color(255, 255, 255, Math.max(0, alpha-70)));
-            g.fillRect(0, 0, 700, 700);
-
-            // 曲名とそれっぽい棒
-            g.setColor(new Color(0, 0, 0, alpha));
-            g.setFont(startAnimationFont);
-            g.drawString(title, startAnimationPos-100, startAnimationPos-10);
-            g.drawLine(800 - startAnimationPos, 0, startAnimationPos - 100, 700);
-            g.drawLine(1300 - startAnimationPos, 0, startAnimationPos - 500, 700);
-            g.drawLine(startAnimationPos - 400, 0, 1400 - startAnimationPos, 700);
-            g.drawLine(startAnimationPos - 200, 0, startAnimationPos + 200, 700);
-
-            // アニメーション
-            if(startAnimationPos < 270 || 370 < startAnimationPos){
-                startAnimationPos += 15;
-            }else{
-                startAnimationPos += 1;
-            }
+            beforeGameProcess(g);
             return;
         }
 
         // ゲームスタート
         if(frameCount == 200){
-            // ノーツ移動スレッドを建てる -> 音楽再生
-            ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-            service.scheduleAtFixedRate(()->{
-                for(Note note: notes){
-                    note.move();
-                }
-            }, delay, 10, TimeUnit.MILLISECONDS);
-            music.start();
+            gameStart();
         }
 
         // 各種情報
@@ -158,6 +131,43 @@ public class GameWindow implements Window{
     public void keyReleased(char key){
         if(key == 'f') f_KeyPressing = false;
         else if(key == 'j') j_KeyPressing = false;
+    }
+
+    // ゲーム開始前演出
+    private void beforeGameProcess(Graphics g){
+        int alpha = Math.max(0, 250 - Math.max(0, startAnimationPos - 600) / 2);
+
+        // ぼかし
+        g.setColor(new Color(255, 255, 255, Math.max(0, alpha-70)));
+        g.fillRect(0, 0, 700, 700);
+
+        // 曲名とそれっぽい棒
+        g.setColor(new Color(0, 0, 0, alpha));
+        g.setFont(startAnimationFont);
+        g.drawString(title, startAnimationPos-100, startAnimationPos-10);
+        g.drawLine(800 - startAnimationPos, 0, startAnimationPos - 100, 700);
+        g.drawLine(1300 - startAnimationPos, 0, startAnimationPos - 500, 700);
+        g.drawLine(startAnimationPos - 400, 0, 1400 - startAnimationPos, 700);
+        g.drawLine(startAnimationPos - 200, 0, startAnimationPos + 200, 700);
+
+        // アニメーション
+        if(startAnimationPos < 270 || 370 < startAnimationPos){
+            startAnimationPos += 15;
+        }else{
+            startAnimationPos += 1;
+        }
+    }
+
+    // ゲームスタート処理
+    private void gameStart(){
+        // ノーツ移動スレッドを建てる -> 音楽再生
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(()->{
+            for(Note note: notes){
+                note.move();
+            }
+        }, delay, 10, TimeUnit.MILLISECONDS);
+        music.start();
     }
 
     // 音楽ファイル読み込み
