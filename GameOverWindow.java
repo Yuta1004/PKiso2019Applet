@@ -10,6 +10,7 @@ public class GameOverWindow implements Window{
     private Image bgImg, scoreboardImg, percentImg, rankImg, resultImg;
     private Image letterGameOver[] = new Image[100];
     private Clip music;
+    private Font pressKeyFont = new Font("Monospaced", Font.BOLD, 30);
 
     public GameOverWindow(Main main){
         parentClass = main;
@@ -55,6 +56,11 @@ public class GameOverWindow implements Window{
 
         // ランク
         g.drawImage(rankImg, 300, 460, 100, 100, parentClass);
+
+        // キーを押すように誘導する表示
+        g.setFont(pressKeyFont);
+        g.drawString("Press any key to back", 165, 650);
+
     }
 
     public void keyPressed(char key){
