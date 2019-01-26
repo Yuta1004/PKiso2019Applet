@@ -24,7 +24,7 @@ public class Note{
     public Pos getDrawPos(){
         if(offset < -100 || 700 < offset || !isAlive) return new Pos(-1, -1);
 
-        return new Pos((int)offset + 100 - 30, (int)(0.007 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 30);
+        return new Pos((int)offset + 100 - 50, (int)(0.007 * (offset % 200 - 100) * (offset % 200 - 100)) + yBias - 50);
     }
 
     // ノーツ移動

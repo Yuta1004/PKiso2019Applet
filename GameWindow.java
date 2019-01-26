@@ -23,7 +23,7 @@ public class GameWindow implements Window{
 
     // 描画関連
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
-    private Image bgImage, noteImg;
+    private Image bgImage, noteImg, flowerImg;
     private int bgImageX = 0, bgScrollSpeed;
     private Clip music;
     private Font scoreDrawFont = new Font("Monospaced", Font.BOLD, 80);
@@ -34,7 +34,8 @@ public class GameWindow implements Window{
 
         // 画像読み込み
         bgImage = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_mori_1.png");
-        noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/ishi_stone.png");
+        noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/bug_hachi_doku.png");
+        flowerImg = parentClass.getImage(parentClass.getCodeBase(), "./res/flower.png");
 
         // 譜面データ読み込み
         loadData("./res/hardcore.txt");
@@ -58,11 +59,6 @@ public class GameWindow implements Window{
         if(bgImageX <= -700) bgImageX = 0;
         g.drawImage(bgImage, bgImageX, 0, 700, 700, parentClass);
         g.drawImage(bgImage, bgImageX+700, 0, 700, 700, parentClass);
-
-        // 各種情報
-        g.setFont(scoreDrawFont);
-        g.setColor(new Color(0, 0, 0, 40));
-        g.drawString(String.format("%.2f %%", (float)score / noteNum), 230, 360);
 
         // 200フレームまでゲーム再生前演出
         if(frameCount < 200){
@@ -102,10 +98,15 @@ public class GameWindow implements Window{
             music.start();
         }
 
+        // 各種情報
+        g.setFont(scoreDrawFont);
+        g.setColor(new Color(0, 0, 0, 40));
+        g.drawString(String.format("%.2f %%", (float)score / noteNum), 230, 360);
+
         // 判定円
         g.setColor(Color.black);
-        g.drawOval(75, 200, 50, 50);
-        g.drawOval(75, 450, 50, 50);
+        g.drawImage(flowerImg, 60, 185, 80, 80, parentClass);
+        g.drawImage(flowerImg, 60, 435, 80, 80, parentClass);
 
         // エフェクト
         effects[0].draw(g);
@@ -116,7 +117,7 @@ public class GameWindow implements Window{
         for(Note drawNote : notes){
            Pos notePos = drawNote.getDrawPos();
            if(notePos.x != -1){
-                g.drawImage(noteImg, notePos.x, notePos.y, 60, 60, parentClass);
+                g.drawImage(noteImg, notePos.x, notePos.y, 100, 100, parentClass);
            }
         }
     }
