@@ -15,7 +15,9 @@ public class Effect{
     public void draw(Graphics g){
         if(size < 150){
             g.setColor(new Color(0, 0, 0, (int)(255-size*1.5)));
+            g.drawOval(x-(size-20)/2, y-(size-20)/2, size-20, size-20);
             g.drawOval(x-size/2, y-size/2, size, size);
+            g.drawOval(x-(size+20)/2, y-(size+20)/2, size+20, size+20);
             size += 5;
         }
     }
