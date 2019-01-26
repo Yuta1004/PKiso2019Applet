@@ -182,7 +182,10 @@ public class GameWindow implements Window{
     // ゲーム終了処理
     private void gameFinishProcess(Graphics g){
         finishAnimationFrame ++;
-        if(finishAnimationFrame >= 255/1.5){ Main.changeWindow("GameOver"); }
+        if(finishAnimationFrame >= 255/1.5){
+            GameOverWindow.score = (float)score / noteNum;
+            Main.changeWindow("GameOver");
+        }
 
         g.setColor(new Color(255, 255, 255, (int)(finishAnimationFrame*1.5)));
         g.fillRect(0, 0, 700, 700);
