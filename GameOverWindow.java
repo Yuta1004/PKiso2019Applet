@@ -1,14 +1,16 @@
 import java.awt.*;
 import java.io.*;
 import javax.sound.sampled.*;
+import java.lang.Math;
 
 public class GameOverWindow implements Window{
     private Main parentClass;
     public static float score = 0;
+    private int frameCount = 0;
 
     private String scoreStr;
     private Image bgImg, scoreboardImg, percentImg, rankImg, resultImg;
-    private Image letterGameOver[] = new Image[100];
+    private Image letterGameOver[] = new Image[100], balloonImg[] = new Image[2];
     private Clip music;
     private Font pressKeyFont = new Font("Monospaced", Font.BOLD, 30);
 
@@ -19,6 +21,8 @@ public class GameOverWindow implements Window{
         scoreboardImg = parentClass.getImage(parentClass.getCodeBase(), "./res/score_board.png");
         bgImg = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_sky.jpg");
         resultImg = parentClass.getImage(parentClass.getCodeBase(), "./res/gameresult.png");
+        balloonImg[0] = parentClass.getImage(parentClass.getCodeBase(), "./res/balloon_1.png");
+        balloonImg[1] = parentClass.getImage(parentClass.getCodeBase(), "./res/balloon_2.png");
     }
 
     public void init(){
@@ -44,8 +48,16 @@ public class GameOverWindow implements Window{
     }
 
     public void draw(Graphics g){
+        frameCount ++;
+
         g.drawImage(bgImg, 0, 0, 700, 700, parentClass);
         g.drawImage(scoreboardImg, 80, 300, 540, 300, parentClass);
+
+        // 風船
+        g.drawImage(balloonImg[0], 0, (int)(170 + 20 * Math.sin(frameCount / 15.0)), 80, 130, parentClass);
+        g.drawImage(balloonImg[1], 620, (int)(230 + 20 * Math.sin(frameCount / 15.0 + 180)), 80, 130, parentClass);
+
+        // スコアボード
         g.drawImage(resultImg, 125, 100, 450, 100, parentClass);
 
         // GameOverの文字
