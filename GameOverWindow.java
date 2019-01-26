@@ -5,7 +5,8 @@ public class GameOverWindow implements Window{
     public static float score = 0;
 
     private String scoreStr;
-    private Image bgImg, scoreboardImg, percentImg, rankImg, letterGameOver[] = new Image[100];
+    private Image bgImg, scoreboardImg, percentImg, rankImg, resultImg;
+    private Image letterGameOver[] = new Image[100];
 
     public GameOverWindow(Main main){
         parentClass = main;
@@ -13,6 +14,7 @@ public class GameOverWindow implements Window{
         // 画像読み込み(背景とか)
         scoreboardImg = parentClass.getImage(parentClass.getCodeBase(), "./res/score_board.png");
         bgImg = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_sky.jpg");
+        resultImg = parentClass.getImage(parentClass.getCodeBase(), "./res/gameresult.png");
     }
 
     public void init(){
@@ -37,6 +39,7 @@ public class GameOverWindow implements Window{
     public void draw(Graphics g){
         g.drawImage(bgImg, 0, 0, 700, 700, parentClass);
         g.drawImage(scoreboardImg, 80, 300, 540, 300, parentClass);
+        g.drawImage(resultImg, 125, 100, 450, 100, parentClass);
 
         // GameOverの文字
         int space = (scoreStr.length() + 1) * 80 / 2;
