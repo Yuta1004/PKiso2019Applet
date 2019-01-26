@@ -15,6 +15,9 @@ public class GameWindow implements Window{
     private int startAnimationPos = 0;
     private Font startAnimationFont = new Font("Monospaced", Font.BOLD, 40);
 
+    // フィニッシュアニメーション
+    private int finishAnimationFrame = 0;
+
     // 音ゲ設定
     private int score = 0, delay, noteNum;
     private float bpm = 160;
@@ -56,7 +59,8 @@ public class GameWindow implements Window{
 
         // 背景
         bgImageX -= bgScrollSpeed;
-        if(bgImageX <= -700) bgImageX = 0;
+        if(bgImageX <= -700 || 700 <= bgImageX) bgImageX = 0;
+        g.drawImage(bgImage, bgImageX-700, 0, 700, 700, parentClass);
         g.drawImage(bgImage, bgImageX, 0, 700, 700, parentClass);
         g.drawImage(bgImage, bgImageX+700, 0, 700, 700, parentClass);
 
@@ -92,6 +96,11 @@ public class GameWindow implements Window{
            if(notePos.x != -1){
                 g.drawImage(noteImg, notePos.x, notePos.y, 100, 100, parentClass);
            }
+        }
+
+        // フィニッシュアニメーション
+        if(!music.isRunning()){
+            gameFinishProcess(g);
         }
     }
 
@@ -168,6 +177,16 @@ public class GameWindow implements Window{
             }
         }, delay, 10, TimeUnit.MILLISECONDS);
         music.start();
+    }
+
+    // ゲーム終了処理
+    private void gameFinishProcess(Graphics g){
+        finishAnimationFrame ++;
+        if(finishAnimationFrame >= 255/1.5){ Main.changeWindow("GameOver"); }
+
+        g.setColor(new Color(255, 255, 255, (int)(finishAnimationFrame*1.5)));
+        g.fillRect(0, 0, 700, 700);
+        bgScrollSpeed -= 1;
     }
 
     // 音楽ファイル読み込み
