@@ -17,6 +17,7 @@ public class Main extends Applet implements Runnable, KeyListener{
         windows.put("Title", new TitleWindow(this));
         windows.put("Game", new GameWindow(this));
         windows.put("GameOver", new GameOverWindow(this));
+        windows.get(nowDrawingWindow).init();
 
         bufImage = createImage(700, 700);
 
@@ -42,8 +43,8 @@ public class Main extends Applet implements Runnable, KeyListener{
     // 描画画面切り替え
     public static boolean changeWindow(String windowID){
         if(windows.containsKey(windowID)){
+            windows.get(windowID).init();
             nowDrawingWindow = windowID;
-            windows.get(nowDrawingWindow).init();
             return true;
         }
         else{
