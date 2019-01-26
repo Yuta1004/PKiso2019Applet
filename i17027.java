@@ -3,9 +3,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.HashMap;
 
-/* <applet code="Main.class" width=700 height=700></applet> */
+/* <applet code="i17027.class" width=700 height=700></applet> */
 
-public class Main extends Applet implements Runnable, KeyListener{
+public class i17027 extends Applet implements Runnable, KeyListener{
     private Thread drawThread;
     private static String nowDrawingWindow = "";
     private static HashMap<String, Window> windows = new HashMap<String, Window>();

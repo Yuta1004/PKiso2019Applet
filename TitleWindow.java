@@ -4,7 +4,7 @@ import java.io.*;
 import java.lang.Math.*;
 
 public class TitleWindow implements Window{
-    private Main parentClass;
+    private i17027 parentClass;
 
     private Image bgImg, rectImg, manImg, womanImg, titleLetters[] = new Image[4];
     private Clip music;
@@ -13,8 +13,8 @@ public class TitleWindow implements Window{
     private int moveFrame = 0;
     private Font pressKeyFont = new Font("Monospaced", Font.BOLD, 30);
 
-    public TitleWindow(Main main){
-        parentClass = main;
+    public TitleWindow(i17027 parent){
+        parentClass = parent;
 
         // 画像読み込み
         bgImg = loadImage("./res/bg_title.png");
@@ -75,7 +75,7 @@ public class TitleWindow implements Window{
 
             // 一定時間経過後に画面遷移
             if(moveFrame >= 255/1.8){
-                Main.changeWindow("Game");
+                i17027.changeWindow("Game");
                 music.stop();
                 isMoving = false;
             }

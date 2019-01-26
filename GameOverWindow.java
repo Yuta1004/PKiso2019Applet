@@ -4,7 +4,7 @@ import javax.sound.sampled.*;
 import java.lang.Math;
 
 public class GameOverWindow implements Window{
-    private Main parentClass;
+    private i17027 parentClass;
     public static float score = 0;
     private int frameCount = 0;
 
@@ -14,8 +14,8 @@ public class GameOverWindow implements Window{
     private Clip music;
     private Font pressKeyFont = new Font("Monospaced", Font.BOLD, 30);
 
-    public GameOverWindow(Main main){
-        parentClass = main;
+    public GameOverWindow(i17027 parent){
+        parentClass = parent;
 
         // 画像読み込み(背景とか)
         scoreboardImg = parentClass.getImage(parentClass.getCodeBase(), "./res/score_board.png");
@@ -77,7 +77,7 @@ public class GameOverWindow implements Window{
 
     public void keyPressed(char key){
         music.stop();
-        Main.changeWindow("Title");
+        i17027.changeWindow("Title");
     }
 
     public void keyReleased(char key){

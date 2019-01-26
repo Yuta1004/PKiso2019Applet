@@ -2,11 +2,11 @@ echo "Cleaning..."
 rm *.class
 
 echo "Compiling..."
-javac Main.java
+javac i17027.java
 
 if [ $? -eq 0 ]; then
     echo "Running..."
-    appletviewer Main.java
+    appletviewer i17027.java
 else
     echo "Compile Error"
 fi

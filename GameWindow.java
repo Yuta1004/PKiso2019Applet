@@ -7,7 +7,7 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class GameWindow implements Window{
-    private Main parentClass;
+    private i17027 parentClass;
     private ArrayList<Note> notes = new ArrayList<Note>();
     private int frameCount = 0;
 
@@ -34,8 +34,8 @@ public class GameWindow implements Window{
     private Font scoreDrawFont = new Font("Monospaced", Font.BOLD, 80);
 
     // コンストラクタ
-    public GameWindow(Main main){
-        parentClass = main;
+    public GameWindow(i17027 parent){
+        parentClass = parent;
 
         // 画像読み込み
         bgImage = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_mori_1.png");
@@ -198,7 +198,7 @@ public class GameWindow implements Window{
         finishAnimationFrame ++;
         if(finishAnimationFrame >= 255/1.5){
             GameOverWindow.score = (float)score / noteNum;
-            Main.changeWindow("GameOver");
+            i17027.changeWindow("GameOver");
         }
 
         g.setColor(new Color(255, 255, 255, (int)(finishAnimationFrame*1.5)));
