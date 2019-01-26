@@ -21,10 +21,10 @@ public class TitleWindow implements Window{
         rectImg = loadImage("./res/fabric_mark_rectangle.png");
         manImg = loadImage("./res/music_norinori_man.png");
         womanImg = loadImage("./res/music_norinori_woman.png");
-        titleLetters[0] = loadImage("./res/letter_o.png");
-        titleLetters[1] = loadImage("./res/letter_to.png");
-        titleLetters[2] = loadImage("./res/letter_ge.png");
-        titleLetters[3] = loadImage("./res/letter_yokobou.png");
+        titleLetters[0] = loadImage("./res/letter/hiragana_o.png");
+        titleLetters[1] = loadImage("./res/letter/hiragana_to.png");
+        titleLetters[2] = loadImage("./res/letter/hiragana_ge.png");
+        titleLetters[3] = loadImage("./res/letter/hiragana_yokobou.png");
 
         // 音楽読み込み
         music = getAudioClip(new File("./res/morinokumasan.wav"));
