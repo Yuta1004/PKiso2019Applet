@@ -23,6 +23,8 @@ public class GameWindow implements Window{
     private float bpm = 160;
     private String title, musicFile;
     private boolean f_KeyPressing = false, j_KeyPressing = false;
+    private ScheduledExecutorService service;
+    private ScheduledFuture<?> sf;
 
     // 描画関連
     private Effect effects[] = {new Effect(100, 225), new Effect(100, 475)};
@@ -39,18 +41,30 @@ public class GameWindow implements Window{
         bgImage = parentClass.getImage(parentClass.getCodeBase(), "./res/bg_mori_1.png");
         noteImg = parentClass.getImage(parentClass.getCodeBase(), "./res/bug_hachi_doku.png");
         flowerImg = parentClass.getImage(parentClass.getCodeBase(), "./res/flower.png");
-
-        // 譜面データ読み込み
-        loadData("./res/hardcore.txt");
-        noteNum = notes.size();
-
-        // 曲読み込み
-        music = getAudioClip(new File("./res/hardcore.wav"));
     }
 
     // 画面のイニシャライザ
     public void init(){
         System.out.println("Init GameWindow");
+
+        // 変数初期化
+        score = 0;
+        frameCount = 0;
+        startAnimationPos = 0;
+        finishAnimationFrame = 0;
+        f_KeyPressing = false;
+        j_KeyPressing = false;
+
+        // スケジューラを止める
+        if(sf != null) sf.cancel(true);
+
+        // 譜面データ読み込み
+        notes = new ArrayList<Note>();
+        loadData("./res/hardcore.txt");
+        noteNum = notes.size();
+
+        // 曲読み込み
+        music = getAudioClip(new File("./res/hardcore.wav"));
     }
 
     // 描画
@@ -170,8 +184,8 @@ public class GameWindow implements Window{
     // ゲームスタート処理
     private void gameStart(){
         // ノーツ移動スレッドを建てる -> 音楽再生
-        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(()->{
+        service = Executors.newSingleThreadScheduledExecutor();
+        sf = service.scheduleAtFixedRate(()->{
             for(Note note: notes){
                 note.move();
             }

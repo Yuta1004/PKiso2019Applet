@@ -27,11 +27,19 @@ public class TitleWindow implements Window{
 
         // 音楽読み込み
         music = getAudioClip(new File("./res/morinokumasan.wav"));
-        music.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void init(){
         System.out.println("Init TitleWindow");
+
+        // 変数初期化
+        moveFrame = 0;
+        frameCount = 0;
+        isMoving = false;
+
+        // 音楽読み込み
+        music = getAudioClip(new File("./res/morinokumasan.wav"));
+        music.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void draw(Graphics g){
@@ -57,14 +65,13 @@ public class TitleWindow implements Window{
             // 音楽フェードアウト
             FloatControl gainControl = (FloatControl)music.getControl(FloatControl.Type.MASTER_GAIN);
             float range = gainControl.getMaximum() - gainControl.getMinimum();
-            float gain = (range * (1.0f - moveFrame / (float)190.0)) + gainControl.getMinimum();
+            float gain = (range * Math.max(0, 1.0f - moveFrame / (float)190.0)) + gainControl.getMinimum();
             gainControl.setValue(gain);
 
             // 一定時間経過後に画面遷移
             if(moveFrame >= 255/1.8){
                 Main.changeWindow("Game");
                 music.stop();
-                music.flush();
                 isMoving = false;
             }
         }
