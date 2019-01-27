@@ -5,7 +5,7 @@ import java.lang.Math;
 
 public class GameOverWindow implements Window{
     private i17027 parentClass;
-    public static float score = 0;
+    public static float score = 0.0f;
     private int frameCount = 0;
 
     private String scoreStr;
@@ -36,10 +36,10 @@ public class GameOverWindow implements Window{
         letterGameOver[scoreStr.length()] = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/p.png");
 
         // 画像読み込み(ランク)
-        if(score > 95.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/S.png");
-        else if(score > 90.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/A.png");
-        else if(score > 80.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/B.png");
-        else if(score > 70.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/C.png");
+        if(score >= 95.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/S.png");
+        else if(score >= 90.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/A.png");
+        else if(score >= 80.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/B.png");
+        else if(score >= 70.0f) rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/C.png");
         else rankImg = parentClass.getImage(parentClass.getCodeBase(), "./res/letter/D.png");
 
         // 音楽読み込み
@@ -51,7 +51,7 @@ public class GameOverWindow implements Window{
         frameCount ++;
 
         g.drawImage(bgImg, 0, 0, 700, 700, parentClass);
-        g.drawImage(scoreboardImg, 80, 300, 540, 300, parentClass);
+        g.drawImage(scoreboardImg, 70, 300, 560, 300, parentClass);
 
         // 風船
         g.drawImage(balloonImg[0], 0, (int)(170 + 20 * Math.sin(frameCount / 15.0)), 80, 130, parentClass);
@@ -67,7 +67,16 @@ public class GameOverWindow implements Window{
         }
 
         // ランク
-        g.drawImage(rankImg, 300, 460, 100, 100, parentClass);
+        if(score >= 100.0f){
+            g.drawImage(rankImg, 200, 460, 100, 100, parentClass);
+            g.drawImage(rankImg, 300, 460, 100, 100, parentClass);
+            g.drawImage(rankImg, 400, 460, 100, 100, parentClass);
+        }else if(score >= 99.0f){
+            g.drawImage(rankImg, 250, 460, 100, 100, parentClass);
+            g.drawImage(rankImg, 350, 460, 100, 100, parentClass);
+        }else{
+            g.drawImage(rankImg, 300, 460, 100, 100, parentClass);
+        }
 
         // キーを押すように誘導する表示
         g.setFont(pressKeyFont);
