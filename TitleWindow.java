@@ -31,7 +31,7 @@ public class TitleWindow implements Window{
     }
 
     public void init(){
-        System.out.println("Init TitleWindow");
+        // System.out.println("Init TitleWindow");
 
         // 変数初期化
         moveFrame = 0;

@@ -45,7 +45,7 @@ public class GameWindow implements Window{
 
     // 画面のイニシャライザ
     public void init(){
-        System.out.println("Init GameWindow");
+        // System.out.println("Init GameWindow");
 
         // 変数初期化
         score = 0;

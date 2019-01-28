@@ -26,7 +26,7 @@ public class GameOverWindow implements Window{
     }
 
     public void init(){
-        System.out.println("Init GameOverWindow");
+        // System.out.println("Init GameOverWindow");
 
         // 画像読み込み(スコア表示用フォント)
         scoreStr = String.format("%.2f", score).replace(".", "@");
