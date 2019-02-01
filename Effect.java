@@ -1,8 +1,7 @@
 import java.awt.*;
 
 public class Effect{
-    private int x;
-    private int y;
+    private int x, y;
     private int size = 500;
 
     // コンストラクタ
