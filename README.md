@@ -1,5 +1,9 @@
 # PKiso2019Applet
 
+## How To Play
+
+`f` , `j` key only!
+
 ## compile
 
 ```
